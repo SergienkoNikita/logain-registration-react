@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    // Include all files in the project
+    "./src/**/*",
+    "./*.js",
+    "./*.ts",
+    "./*.tsx",
+    ".eslintrc.cjs"
+  ],
+  "compilerOptions": {
+    "allowJs": true
+  }
+}
