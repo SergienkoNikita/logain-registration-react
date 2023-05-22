@@ -1,34 +1,45 @@
-import { FC, useState } from 'react';
+import {
+  FC, JSX, useMemo, useState,
+} from 'react';
 import { LoginForm } from './login-form.tsx';
 import { RegistrationForm } from './registration-form.tsx';
 import { BaseSwitchButton } from '../../../shared/ui';
+import styles from './authoriztion.module.css';
 
-enum LoginTypeEnum {
+enum LoginType {
   Login = 'login',
   Registration = 'registration',
 }
 
 export const Authorization: FC = () => {
-  const [loginType, setLoginType] = useState<LoginTypeEnum>();
-  const options: { value: LoginTypeEnum, label: string }[] = [{ value: LoginTypeEnum.Login, label: 'Логин' }, { value: LoginTypeEnum.Registration, label: 'Регистрация' }];
+  const [activeLoginType, setActiveLoginType] = useState<LoginType>(LoginType.Login);
+  const loginTypeOptions: { value: LoginType, label: string }[] = [
+    { value: LoginType.Login, label: 'Логин' },
+    { value: LoginType.Registration, label: 'Регистрация' },
+  ];
 
-  const setSelected = (value: LoginTypeEnum) => {
-    if (value === LoginTypeEnum.Login || value === LoginTypeEnum.Registration) setLoginType(value);
+  const setSelected = (loginType: LoginType) => {
+    setActiveLoginType(loginType);
   };
 
-  return (
-    <div>
-      Авторизация
+  const activeForm = useMemo<JSX.Element>(() => {
+    if (activeLoginType === LoginType.Login) return <LoginForm/>;
 
-      <BaseSwitchButton
-        value={loginType as string}
-        options={options}
-        onChange={setSelected}
-      />
-      {loginType === LoginTypeEnum.Login
-        ? <LoginForm/>
-        : <RegistrationForm/>
-      }
+    return <RegistrationForm/>;
+  }, [activeLoginType]);
+
+  return (
+    <div className={styles.authorization}>
+      <div className={styles.authorizationForms}>
+        <h1>Авторизация</h1>
+
+        <BaseSwitchButton
+          value={activeLoginType as string}
+          options={loginTypeOptions}
+          onChange={setSelected}
+        />
+        { activeForm }
+      </div>
     </div>
   );
 };

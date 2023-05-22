@@ -1,0 +1,21 @@
+.baseSwitchButton {
+    display: flex;
+    background-color: #c5dfff;
+    border-radius: 8px;
+    padding: 2px 4px;
+    color: #3992ff;
+    cursor: pointer;
+    user-select: none;
+    width: fit-content;
+}
+
+.baseSwitchButtonItem {
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: background-color .2s ease-in-out;
+}
+
+.baseSwitchButtonItemActive {
+    background-color: #fff;
+    color: #1d1d99;
+}

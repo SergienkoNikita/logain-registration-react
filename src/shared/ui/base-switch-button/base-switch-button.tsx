@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import style from './base-switch-button.module.css';
 
 interface BaseSwitchButtonProps {
   value: string | number;
@@ -7,13 +8,12 @@ interface BaseSwitchButtonProps {
 }
 
 export const BaseSwitchButton: FC<BaseSwitchButtonProps> = (props) => (
-    <div style={{ display: 'flex' }}>
+    <div className={style.baseSwitchButton}>
       {props.options
         .map(
           (option) => <div
-            style={{
-              border: '1px solid black', padding: '5px', cursor: 'pointer', backgroundColor: props.value === option.value ? 'tan' : '',
-            }}
+            key={option.value}
+            className={[props.value === option.value ? style.baseSwitchButtonItemActive : '', style.baseSwitchButtonItem].join(' ')}
             onClick={() => props.onChange(option.value)}
           >{option.label}</div>,
         )
