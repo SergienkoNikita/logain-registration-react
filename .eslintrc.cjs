@@ -18,7 +18,6 @@ module.exports = {
   },
 
   rules: {
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
     "import/prefer-default-export": "off",
     'import/extensions': 'off',
   }
