@@ -3,7 +3,7 @@ import { FC } from 'react';
 interface BaseSwitchButtonProps {
   value: string | number;
   options: Array<{ value: string | number, label: string | number }>;
-  onChange: (value: string | number) => void
+  onChange: (value: any) => void
 }
 
 export const BaseSwitchButton: FC<BaseSwitchButtonProps> = (props) => (

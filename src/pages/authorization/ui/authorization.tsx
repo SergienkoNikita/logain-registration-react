@@ -12,7 +12,7 @@ export const Authorization: FC = () => {
   const [loginType, setLoginType] = useState<LoginTypeEnum>();
   const options: { value: LoginTypeEnum, label: string }[] = [{ value: LoginTypeEnum.Login, label: 'Логин' }, { value: LoginTypeEnum.Registration, label: 'Регистрация' }];
 
-  const setSelected = (value: string | number) => {
+  const setSelected = (value: LoginTypeEnum) => {
     if (value === LoginTypeEnum.Login || value === LoginTypeEnum.Registration) setLoginType(value);
   };
 
