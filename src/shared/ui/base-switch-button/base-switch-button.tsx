@@ -7,14 +7,18 @@ interface BaseSwitchButtonProps {
   onChange: (value: any) => void
 }
 
-export const BaseSwitchButton: FC<BaseSwitchButtonProps> = (props) => (
+export const BaseSwitchButton: FC<BaseSwitchButtonProps> = ({
+  value,
+  options,
+  onChange,
+}) => (
     <div className={style.baseSwitchButton}>
-      {props.options
+      {options
         .map(
           (option) => <div
             key={option.value}
-            className={[props.value === option.value ? style.baseSwitchButtonItemActive : '', style.baseSwitchButtonItem].join(' ')}
-            onClick={() => props.onChange(option.value)}
+            className={[value === option.value ? style.baseSwitchButtonItemActive : '', style.baseSwitchButtonItem].join(' ')}
+            onClick={() => onChange(option.value)}
           >{option.label}</div>,
         )
       }
