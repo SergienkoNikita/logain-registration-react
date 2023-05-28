@@ -6,7 +6,7 @@ export const LoginForm: FC = () => {
     login: string | number;
     password: string | number;
   }>({
-    login: '',
+    login: 'my-login',
     password: '',
   });
 
@@ -22,7 +22,6 @@ export const LoginForm: FC = () => {
     // eslint-disable-next-line no-console
     console.log(loginForm);
   };
-
   return (
     <>
       <BaseInput
@@ -31,6 +30,8 @@ export const LoginForm: FC = () => {
         value={loginForm.login}
         onChange={setLogin}
         clearable
+        showCount
+        size='xs'
         addonAfter='After'
         addonBefore='Before'
         prefix={<span style={{ fontSize: 10, padding: '0 3px' }}>Prefix</span>}
@@ -38,9 +39,7 @@ export const LoginForm: FC = () => {
         maxLength={50}
         status='success'
         enterButton='Сабмит'
-        loading
-        showCount
-        size='xs'
+        disabled
       />
 
       <BaseInput
@@ -54,7 +53,7 @@ export const LoginForm: FC = () => {
         prefix={<span style={{ fontSize: 10, padding: '0 3px' }}>Prefix</span>}
         postfix={<span style={{ fontSize: 10, padding: '0 3px' }}>Postfix</span>}
         maxLength={50}
-        status='success'
+        status='warning'
         enterButton='Сабмит'
         loading
         showCount
@@ -71,9 +70,8 @@ export const LoginForm: FC = () => {
         prefix={<span style={{ fontSize: 10, padding: '0 3px' }}>Prefix</span>}
         postfix={<span style={{ fontSize: 10, padding: '0 3px' }}>Postfix</span>}
         maxLength={50}
-        status='success'
+        status='error'
         enterButton='Сабмит'
-        loading
         showCount
         size='md'
       />
@@ -89,9 +87,7 @@ export const LoginForm: FC = () => {
         prefix={<span style={{ fontSize: 10, padding: '0 3px' }}>Prefix</span>}
         postfix={<span style={{ fontSize: 10, padding: '0 3px' }}>Postfix</span>}
         maxLength={50}
-        status='success'
         enterButton='Сабмит'
-        loading
         showCount
         size='lg'
       />
@@ -107,9 +103,7 @@ export const LoginForm: FC = () => {
         prefix={<span style={{ fontSize: 10, padding: '0 3px' }}>Prefix</span>}
         postfix={<span style={{ fontSize: 10, padding: '0 3px' }}>Postfix</span>}
         maxLength={50}
-        status='success'
         enterButton='Сабмит'
-        loading
         showCount
         size='xl'
       />

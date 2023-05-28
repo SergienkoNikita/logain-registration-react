@@ -23,9 +23,14 @@ const BaseInput: FC<BaseInputProps> = ({
   postfix,
   enterButton,
   loading,
+  disabled,
   ...rest
 }) => {
   const [localValue, setLocalValue] = useState<string | number>(defaultValue ?? '');
+
+  useEffect(() => {
+    if (value) setLocalValue(value);
+  }, []);
 
   useEffect(() => {
     if (localValue === value) return;
@@ -33,18 +38,28 @@ const BaseInput: FC<BaseInputProps> = ({
     onChange(localValue);
   }, [localValue]);
 
+  const isDisabled = useMemo<boolean>(() => (
+    Boolean(disabled) || Boolean(loading)
+  ), [loading, disabled]);
+
   const isClearIconVisible = useMemo<boolean>(() => {
-    if (!clearable) return false;
+    if (!clearable || isDisabled) return false;
 
     return Boolean(localValue.toString().length);
-  }, [localValue]);
+  }, [localValue, clearable, isDisabled]);
   const isCountVisible = useMemo<boolean>(() => (
     Boolean(maxLength) || Boolean(showCount)
   ), [maxLength, showCount]);
 
   const inputClass = useMemo<string>(() => (
-    [classes.baseInput, classes[size ?? UI_SIZES.md]].join(' ')
-  ), [size]);
+    [
+      classes.baseInput,
+      classes[size ?? UI_SIZES.md],
+      status ? classes[status] : '',
+      isDisabled ? classes.disabled : '',
+      enterButton ? classes.withButton : '',
+    ].join(' ')
+  ), [size, isDisabled, status, enterButton]);
 
   const onLocalValueChange = (e: FormEvent<HTMLInputElement>): void => {
     setLocalValue(e.currentTarget.value);
@@ -59,35 +74,37 @@ const BaseInput: FC<BaseInputProps> = ({
   };
 
   return (
-    <div className={inputClass}>
-      {addonBefore && <div className={classes.baseInputAddonBefore}>{addonBefore}</div>}
-      {prefix && <div className={classes.baseInputPrefix}>{prefix}</div>}
-      <div className={classes.baseInputWrap}>
-        <input
-          {...rest}
-          value={localValue}
-          onChange={onLocalValueChange}
-          onInput={onLocalValueInput}
-          onFocus={onFocus}
-          onBlur={onBlur}
-        />
-        <div className={classes.baseInputAdditional}>
-          {isClearIconVisible
-            && <div
-                  className={classes.baseInputClearBtn}
-                  onClick={onClearClick}
-              >
-                  <span>x</span>
-              </div>}
-          {isCountVisible && <div className={classes.baseInputCount}>
-            {localValue.toString().length}
-            {Boolean(maxLength) && <>{`/${maxLength}`}</>}
-          </div>}
+      <div className={inputClass}>
+        {addonBefore && <div className={classes.baseInputAddonBefore}>{addonBefore}</div>}
+        {prefix && <div className={classes.baseInputPrefix}>{prefix}</div>}
+        <div className={classes.baseInputWrap}>
+          <input
+            {...rest}
+            value={localValue}
+            onChange={onLocalValueChange}
+            onInput={onLocalValueInput}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            disabled={isDisabled}
+          />
+          <div className={classes.baseInputAdditional}>
+            {isClearIconVisible
+              && <div
+                    className={classes.baseInputClearBtn}
+                    onClick={onClearClick}
+                >
+                    <span>x</span>
+                </div>}
+            {isCountVisible && <div className={classes.baseInputCount}>
+              {localValue.toString().length}
+              {Boolean(maxLength) && <>{`/${maxLength}`}</>}
+            </div>}
+          </div>
         </div>
+        {postfix && <div className={classes.baseInputPostfix}>{postfix}</div>}
+        {addonAfter && <div className={classes.baseInputAddonAfter}>{addonAfter}</div>}
+        {enterButton && <button className={classes.baseInputButton}>{enterButton}</button>}
       </div>
-      {postfix && <div className={classes.baseInputPostfix}>{postfix}</div>}
-      {addonAfter && <div className={classes.baseInputAddonAfter}>{addonAfter}</div>}
-    </div>
   );
 };
 
