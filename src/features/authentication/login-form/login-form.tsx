@@ -6,7 +6,7 @@ export const LoginForm: FC = () => {
     login: string | number;
     password: string | number;
   }>({
-    login: 'my-login',
+    login: '',
     password: '',
   });
 
@@ -23,92 +23,23 @@ export const LoginForm: FC = () => {
     console.log(loginForm);
   };
   return (
-    <>
+    <div style={{ width: '60%' }}>
       <BaseInput
         type='text'
         placeholder='Логин'
         value={loginForm.login}
         onChange={setLogin}
-        clearable
-        showCount
-        size='xs'
-        addonAfter='After'
-        addonBefore='Before'
-        prefix={<span style={{ fontSize: 10, padding: '0 3px' }}>Prefix</span>}
-        postfix={<span style={{ fontSize: 10, padding: '0 3px' }}>Postfix</span>}
-        maxLength={50}
-        status='success'
-        enterButton='Сабмит'
-        disabled
+        style={{ marginBottom: 10 }}
       />
 
       <BaseInput
-        type='text'
+        type='password'
         placeholder='Пароль'
-        value={loginForm.login}
+        value={loginForm.password}
         onChange={setPassword}
-        clearable
-        addonAfter='After'
-        addonBefore='Before'
-        prefix={<span style={{ fontSize: 10, padding: '0 3px' }}>Prefix</span>}
-        postfix={<span style={{ fontSize: 10, padding: '0 3px' }}>Postfix</span>}
-        maxLength={50}
-        status='warning'
-        enterButton='Сабмит'
-        loading
-        showCount
-        size='sm'
+        style={{ marginBottom: 10 }}
       />
-      <BaseInput
-        type='text'
-        placeholder='Логин'
-        value={loginForm.login}
-        onChange={setLogin}
-        clearable
-        addonAfter='After'
-        addonBefore='Before'
-        prefix={<span style={{ fontSize: 10, padding: '0 3px' }}>Prefix</span>}
-        postfix={<span style={{ fontSize: 10, padding: '0 3px' }}>Postfix</span>}
-        maxLength={50}
-        status='error'
-        enterButton='Сабмит'
-        showCount
-        size='md'
-      />
-
-      <BaseInput
-        type='text'
-        placeholder='Пароль'
-        value={loginForm.login}
-        onChange={setPassword}
-        clearable
-        addonAfter='After'
-        addonBefore='Before'
-        prefix={<span style={{ fontSize: 10, padding: '0 3px' }}>Prefix</span>}
-        postfix={<span style={{ fontSize: 10, padding: '0 3px' }}>Postfix</span>}
-        maxLength={50}
-        enterButton='Сабмит'
-        showCount
-        size='lg'
-      />
-
-      <BaseInput
-        type='text'
-        placeholder='Пароль'
-        value={loginForm.login}
-        onChange={setPassword}
-        clearable
-        addonAfter='After'
-        addonBefore='Before'
-        prefix={<span style={{ fontSize: 10, padding: '0 3px' }}>Prefix</span>}
-        postfix={<span style={{ fontSize: 10, padding: '0 3px' }}>Postfix</span>}
-        maxLength={50}
-        enterButton='Сабмит'
-        showCount
-        size='xl'
-      />
-
       <button onClick={log}>показать логин</button>
-    </>
+    </div>
   );
 };

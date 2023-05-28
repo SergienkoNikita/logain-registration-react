@@ -24,6 +24,8 @@ const BaseInput: FC<BaseInputProps> = ({
   enterButton,
   loading,
   disabled,
+  className,
+  style,
   ...rest
 }) => {
   const [localValue, setLocalValue] = useState<string | number>(defaultValue ?? '');
@@ -58,8 +60,9 @@ const BaseInput: FC<BaseInputProps> = ({
       status ? classes[status] : '',
       isDisabled ? classes.disabled : '',
       enterButton ? classes.withButton : '',
+      className ?? '',
     ].join(' ')
-  ), [size, isDisabled, status, enterButton]);
+  ), [size, isDisabled, status, enterButton, className]);
 
   const onLocalValueChange = (e: FormEvent<HTMLInputElement>): void => {
     setLocalValue(e.currentTarget.value);
@@ -74,7 +77,7 @@ const BaseInput: FC<BaseInputProps> = ({
   };
 
   return (
-      <div className={inputClass}>
+      <div className={inputClass} style={style}>
         {addonBefore && <div className={classes.baseInputAddonBefore}>{addonBefore}</div>}
         {prefix && <div className={classes.baseInputPrefix}>{prefix}</div>}
         <div className={classes.baseInputWrap}>
