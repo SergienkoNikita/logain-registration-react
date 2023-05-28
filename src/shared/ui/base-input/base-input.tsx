@@ -3,7 +3,7 @@ import {
 } from 'react';
 import { UI_SIZES } from '../ui-sizes.ts';
 import { BaseInputProps } from './types.ts';
-import classes from './base-input.module.css';
+import classes from './base-input.module.pcss';
 
 const BaseInput: FC<BaseInputProps> = ({
   value,
@@ -42,6 +42,10 @@ const BaseInput: FC<BaseInputProps> = ({
     Boolean(maxLength) || Boolean(showCount)
   ), [maxLength, showCount]);
 
+  const inputClass = useMemo<string>(() => (
+    [classes.baseInput, classes[size ?? UI_SIZES.md]].join(' ')
+  ), [size]);
+
   const onLocalValueChange = (e: FormEvent<HTMLInputElement>): void => {
     setLocalValue(e.currentTarget.value);
   };
@@ -55,7 +59,7 @@ const BaseInput: FC<BaseInputProps> = ({
   };
 
   return (
-    <div className={classes.baseInput}>
+    <div className={inputClass}>
       {addonBefore && <div className={classes.baseInputAddonBefore}>{addonBefore}</div>}
       {prefix && <div className={classes.baseInputPrefix}>{prefix}</div>}
       <div className={classes.baseInputWrap}>

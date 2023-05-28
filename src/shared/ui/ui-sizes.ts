@@ -1,15 +1,9 @@
 const UI_SIZES_LIST = [
-  '4xs',
-  '3xs',
-  '2xs',
   'xs',
   'sm',
   'md',
   'lg',
   'xl',
-  '2xl',
-  '3xl',
-  '4xl',
 ] as const;
 
 type AllUiSizes = typeof UI_SIZES_LIST[number];

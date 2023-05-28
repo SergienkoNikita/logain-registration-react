@@ -1,0 +1,217 @@
+.base-input {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #b8b8ff;
+  background-color: #e0eaff;
+  box-shadow: -2px 4px 7px 2px #cfcfcf;
+
+
+  & input {
+    border: none;
+    background-color: transparent;
+    height: 100%;
+    flex-grow: 1;
+    padding: 0 5px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .base-input-wrap {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    position: relative;
+  }
+
+  & .base-input-addon-before,
+  & .base-input-addon-after {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: grey;
+    cursor: default;
+    user-select: none;
+  }
+
+  .base-input-addon-before {
+    padding-right: 5px;
+    border-right: 1px solid #b8b8ff;
+  }
+
+  .base-input-addon-after {
+    padding-left: 5px;
+    border-left: 1px solid #b8b8ff;
+  }
+
+  .base-input-additional {
+    position: absolute;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 5px;
+    gap: 4px;
+  }
+
+  .base-input-count {
+    color: gray;
+  }
+
+  .base-input-clear-btn {
+    border-radius: 100%;
+    background-color: #c4c4e1;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 700;
+  }
+
+  .base-input-prefix,
+  .base-input-postfix {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+  }
+
+  &.xs {
+    height: 18px;
+    border-radius: 3px;
+    padding: 0 5px;
+
+    & input {
+      font-size: 10px;
+    }
+
+    & .base-input-addon-before,
+    & .base-input-addon-after {
+      font-size: 10px;
+    }
+
+    & .base-input-count {
+      font-size: 8px;
+      margin-top: 6px;
+    }
+
+    & .base-input-clear-btn {
+      font-size: 7px;
+      height: 8px;
+      width: 8px;
+      line-height: 6px;
+    }
+  }
+
+  &.sm {
+    height: 24px;
+    border-radius: 4px;
+    padding: 0 7px;
+
+    & input {
+      font-size: 12px;
+    }
+
+    & .base-input-addon-before,
+    & .base-input-addon-after {
+      font-size: 12px;
+    }
+
+    & .base-input-count {
+      font-size: 9px;
+      margin-top: 7px;
+    }
+
+    & .base-input-clear-btn {
+      font-size: 8px;
+      height: 10px;
+      width: 10px;
+      line-height: 10px;
+    }
+  }
+
+  &.md {
+    height: 28px;
+    padding: 0 9px;
+    border-radius: 5px;
+
+    & input {
+      font-size: 14px;
+    }
+
+    & .base-input-addon-before,
+    & .base-input-addon-after {
+      font-size: 14px;
+    }
+
+    & .base-input-count {
+      font-size: 10px;
+      margin-top: 8px;
+    }
+
+    & .base-input-clear-btn {
+      font-size: 9px;
+      height: 12px;
+      width: 12px;
+      line-height: 12px;
+    }
+  }
+
+  &.lg {
+    height: 32px;
+    border-radius: 5px;
+    padding: 0 10px;
+
+    & input {
+      font-size: 14px;
+    }
+
+    & .base-input-addon-before,
+    & .base-input-addon-after {
+      font-size: 16px;
+    }
+
+    & .base-input-count {
+      font-size: 10px;
+      margin-top: 12px;
+    }
+
+    & .base-input-clear-btn {
+      font-size: 11px;
+      height: 14px;
+      width: 14px;
+      line-height: 12px;
+    }
+  }
+
+  &.xl {
+    height: 40px;
+    border-radius: 5px;
+    padding: 0 10px;
+
+    & input {
+      font-size: 16px;
+    }
+
+    & .base-input-addon-before,
+    & .base-input-addon-after {
+      font-size: 16px;
+    }
+
+    & .base-input-count {
+      font-size: 10px;
+      margin-top: 18px;
+    }
+
+    & .base-input-clear-btn {
+      font-size: 11px;
+      height: 14px;
+      width: 14px;
+      line-height: 12px;
+    }
+  }
+}
