@@ -1,0 +1,73 @@
+.switch-button {
+  display: flex;
+  background-color: #c5dfff;
+  color: #3992ff;
+  cursor: pointer;
+  user-select: none;
+  width: fit-content;
+
+
+  .switch-button-item {
+    transition: background-color .2s ease-in-out;
+  }
+
+  &.xs {
+    border-radius: 5px;
+    padding: 2px 3px;
+    font-size: 10px;
+
+    & .switch-button-item {
+      padding: 2px 4px;
+      border-radius: 5px;
+    }
+  }
+
+  &.sm {
+    border-radius: 6px;
+    padding: 2px 3px;
+    font-size: 12px;
+
+    & .switch-button-item {
+      padding: 3px 5px;
+      border-radius: 6px;
+    }
+  }
+
+  &.md {
+    border-radius: 6px;
+    padding: 2px 3px;
+    font-size: 14px;
+
+    & .switch-button-item {
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+  }
+
+  &.lg {
+    border-radius: 8px;
+    padding: 3px 4px;
+    font-size: 17px;
+
+    & .switch-button-item {
+      padding: 5px 10px;
+      border-radius: 8px;
+    }
+  }
+
+  &.xl {
+    border-radius: 8px;
+    padding: 3px 4px;
+    font-size: 20px;
+
+    & .switch-button-item {
+      padding: 5px 10px;
+      border-radius: 8px;
+    }
+  }
+
+  .switch-button-item-active {
+    background-color: #fff;
+    color: #1d1d99;
+  }
+}

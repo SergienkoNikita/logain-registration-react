@@ -32,6 +32,36 @@ export const Authentication: FC = () => {
       <BaseSwitchButton
         value={activeLoginType as string}
         options={loginTypeOptions}
+        size='xs'
+        onChange={setSelected}
+      />
+      <BaseSwitchButton
+        value={activeLoginType as string}
+        options={loginTypeOptions}
+        onChange={setSelected}
+        size='sm'
+      />
+      <BaseSwitchButton
+        value={activeLoginType as string}
+        options={loginTypeOptions}
+        onChange={setSelected}
+        size='md'
+      />
+      <BaseSwitchButton
+        value={activeLoginType as string}
+        options={loginTypeOptions}
+        onChange={setSelected}
+        size='lg'
+      />
+      <BaseSwitchButton
+        value={activeLoginType as string}
+        options={loginTypeOptions}
+        onChange={setSelected}
+        size='xl'
+      />
+      <BaseSwitchButton
+        value={activeLoginType as string}
+        options={loginTypeOptions}
         onChange={setSelected}
       />
       { activeForm }
