@@ -9,11 +9,14 @@
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-  "browserlists": [ "last 2 versions" ],
+  "browserlists": [
+    "last 2 versions"
+  ],
   "dependencies": {
     "@react-buddy/ide-toolbox": "^2.3.1",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
+    "formik": "^2.4.0",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",
