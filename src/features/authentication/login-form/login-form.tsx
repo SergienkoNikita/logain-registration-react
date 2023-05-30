@@ -1,31 +1,38 @@
 import { FC } from 'react';
-import { FormikProps, useFormik } from 'formik';
 import { BaseInput } from '../../../shared/ui';
-
-type LoginFormValues = {
-  email: string;
-  password: string;
-};
+import { useForm } from '../../../shared/libs/use-form.ts';
 
 export const LoginForm: FC = () => {
-  const formik: FormikProps<LoginFormValues> = useFormik<LoginFormValues>({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    onSubmit: (e) => {
-      console.log(e);
+  const {
+    values,
+    onFieldChange,
+    validateField,
+  } = useForm<{ name: string, password: string }>({
+    values: {
+      name: {
+        defaultValue: '123',
+        rules: [(v) => {
+          // eslint-disable-next-line no-console
+          console.log(`Not Valid ${v}`);
+          return `Not Valid ${v}`;
+        }],
+      },
+
+      password: {
+        defaultValue: '',
+      },
     },
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} style={{ width: '60%' }}>
+    <div>
       <BaseInput
         type='text'
         placeholder='Логин'
         name='email'
-        value={formik.values.email}
-        onChange={(value) => formik.setFieldValue('email', value)}
+        value={values.name}
+        onChange={(value) => onFieldChange('name', value)}
+        onBlur={() => validateField('name')}
         style={{ marginBottom: 10 }}
         clearable
       />
@@ -34,11 +41,11 @@ export const LoginForm: FC = () => {
         type='password'
         name='password'
         placeholder='Пароль'
-        value={formik.values.password}
-        onChange={(value) => formik.setFieldValue('password', value)}
+        value={values.password}
+        onChange={(value) => onFieldChange('password', value)}
         style={{ marginBottom: 10 }}
       />
-      <button type='submit'>показать логин</button>
-    </form>
+      <button type='submit' style={{ width: '100%', textAlign: 'center' }}>Войти</button>
+    </div>
   );
 };

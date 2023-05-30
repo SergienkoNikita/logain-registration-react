@@ -6,9 +6,9 @@ export interface BaseInputProps extends Omit<
 InputHTMLAttributes<HTMLInputElement>,
 'prefix' | 'value' | 'size' | 'onChange' | 'onInput' | 'onFocus' | 'onBlur'
 > {
-  value: string | number;
-  onChange(value: string | number): void;
-  onInput?(value: string | number): void;
+  value: string;
+  onChange(value: string): void;
+  onInput?(value: string): void;
   onBlur?(): void;
   onFocus?(): void;
   addonBefore?: string | number | ReactNode;
