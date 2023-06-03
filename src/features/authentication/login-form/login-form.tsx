@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { BaseInput } from '../../../shared/ui';
-import { useForm } from '../../../shared/libs/use-form.ts';
+import { useForm } from '../../../shared/libs/use-form';
 
 export const LoginForm: FC = () => {
   const {

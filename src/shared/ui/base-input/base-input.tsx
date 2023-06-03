@@ -28,7 +28,7 @@ const BaseInput: FC<BaseInputProps> = ({
   style,
   ...rest
 }) => {
-  const [localValue, setLocalValue] = useState<string | number>(defaultValue ?? '');
+  const [localValue, setLocalValue] = useState<string>(defaultValue ?? '');
 
   useEffect(() => {
     if (value) setLocalValue(value);

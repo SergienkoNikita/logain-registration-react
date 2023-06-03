@@ -13,6 +13,7 @@ interface UseFormApi<T> {
   errors: Record<keyof T, string> | {};
   onFieldChange: (fieldName: keyof T, value: T[keyof T]) => void;
   validateField: (name: keyof T) => void;
+  validate: () => void;
 }
 
 export const useForm = <T>({ values }: Props<T>): UseFormApi<T> => {
@@ -52,10 +53,15 @@ export const useForm = <T>({ values }: Props<T>): UseFormApi<T> => {
     }
   };
 
+  const validate: UseFormApi<T>['validate'] = () => {
+    console.log('validate');
+  };
+
   return {
     values: formData,
     errors,
     onFieldChange,
     validateField,
+    validate,
   };
 };
