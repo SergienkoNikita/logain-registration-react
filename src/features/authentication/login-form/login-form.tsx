@@ -1,28 +1,32 @@
 import { FC } from 'react';
 import { BaseInput } from '../../../shared/ui';
-import { useForm } from '../../../shared/libs/use-form';
+import { useForm } from '../../../shared/libs/form';
+import { useField } from '../../../shared/libs/form/use-field/use-field.ts';
 
 export const LoginForm: FC = () => {
   const {
     values,
     onFieldChange,
-    validateField,
-  } = useForm<{ name: string, password: string }>({
+  } = useForm<{ password: string }>({
     values: {
-      name: {
-        defaultValue: '123',
-        rules: [(v) => {
-          // eslint-disable-next-line no-console
-          console.log(`Not Valid ${v}`);
-          return `Not Valid ${v}`;
-        }],
-      },
-
       password: {
         defaultValue: '',
       },
     },
   });
+
+  const {
+    field: nameField, validate, onFieldChange: onNameChange, reset,
+  } = useField({
+    name: 'email',
+    defaultValue: '',
+    rules: ['required', 'email'],
+  });
+
+  const onNameBlur = () => {
+    validate();
+    console.log(nameField);
+  };
 
   return (
     <div>
@@ -30,9 +34,11 @@ export const LoginForm: FC = () => {
         type='text'
         placeholder='Логин'
         name='email'
-        value={values.name}
-        onChange={(value) => onFieldChange('name', value)}
-        onBlur={() => validateField('name')}
+        value={nameField.value as string}
+        onChange={onNameChange}
+        onBlur={onNameBlur}
+        onInput={reset}
+        status={nameField.isValid ? undefined : 'error'}
         style={{ marginBottom: 10 }}
         clearable
       />

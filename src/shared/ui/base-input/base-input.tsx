@@ -1,5 +1,5 @@
 import {
-  FC, FormEvent, useEffect, useMemo, useState,
+  FC, FormEvent, useEffect, useMemo, useRef, useState,
 } from 'react';
 import { UI_SIZES } from '../ui-sizes.ts';
 import { BaseInputProps } from './types.ts';
@@ -29,6 +29,8 @@ const BaseInput: FC<BaseInputProps> = ({
   ...rest
 }) => {
   const [localValue, setLocalValue] = useState<string>(defaultValue ?? '');
+
+  const nativeControl = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (value) setLocalValue(value);
@@ -73,7 +75,10 @@ const BaseInput: FC<BaseInputProps> = ({
   };
 
   const onClearClick = () => {
-    if (localValue && localValue.toString().length) setLocalValue('');
+    if (localValue && localValue.toString().length) {
+      setLocalValue('');
+      nativeControl.current?.focus();
+    }
   };
 
   return (
@@ -82,6 +87,7 @@ const BaseInput: FC<BaseInputProps> = ({
         {prefix && <div className={classes.baseInputPrefix}>{prefix}</div>}
         <div className={classes.baseInputWrap}>
           <input
+            ref={nativeControl}
             {...rest}
             value={localValue}
             onChange={onLocalValueChange}

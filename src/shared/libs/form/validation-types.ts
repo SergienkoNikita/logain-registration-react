@@ -3,21 +3,19 @@ interface ValidationRule {
   params: Record<string, string | number | string[] | number[]>
 }
 
-interface FieldValidationMeta {
-  field: string;
+export interface FieldValidationMeta {
   name: string;
   label?: string;
   value: unknown;
-  form: Record<string, unknown>;
-  rule?: ValidationRule;
+  rule?: ValidationRule[];
 }
-type ValidationRuleFunction<
+export type ValidationRuleFunction<
   TValue = unknown,
   TParams = unknown[] | Record<string, unknown>,
 > = (
   value: TValue,
-  params: TParams,
-  ctx: FieldValidationMeta
+  params?: TParams,
+  ctx?: FieldValidationMeta
 ) => boolean | string | Promise<boolean | string>;
 
 export type SimpleValidationRuleFunction<
@@ -36,7 +34,7 @@ type DefineRule = <
   validator: ValidationRuleFunction<TValue, TParams> | SimpleValidationRuleFunction<TValue, TParams>
 ) => void;
 
-const RULES: Map<Parameters<DefineRule>[0], Parameters<DefineRule>[1]> = new Map();
+export const RULES: Map<Parameters<DefineRule>[0], Parameters<DefineRule>[1]> = new Map();
 
 type BetweenParams = [string | number, string | number] | {
   min: number | string;
@@ -78,6 +76,32 @@ export const DEFAULT_RULES: {
     .filter((size) => size !== undefined),
 );
 
+export const DEFAULT_ERROR_TEXT = 'Поле заполнено не верно';
+
+type ValidationErrorText = (params: any) => string;
+export const VALIDATION_ERROR_TEXT: Record<DefaultRules, ValidationErrorText | string> = {
+  required: 'Поле обязательно к заполнению',
+  alpha: 'Поле может содержать только буквы',
+  alpha_dash: 'Поле может содержать только буквы, цифры и тире',
+  alpha_num: 'Поле может содержать только буквы и цифры',
+  alpha_spaces: 'Поле может содержать только буквы и тире',
+  between: (params: { min: string | number, max: string | number }): string => `Поле может содержать от ${params.min} до ${params.max}`,
+  confirmed: 'Поля не совподают',
+  digits: ({ length }: { length: string | number }):string => `Поле дожно содержать ${length} цифр`,
+  email: 'Не корректный email',
+  integer: 'Поле должно быть допустимым целочисленным значением',
+  is: ({ other }: { other: string | number }): string => `Поле не соответствует шаблону - ${other}`,
+  is_not: ({ other }: { other: string | number }): string => `Поле не должно равляться - ${other}`,
+  length: ({ length }: { length: string | number }): string => `Поле должно содержать ${length} элементов`,
+  max_length: ({ length }: { length: string | number }): string => `Максимальнаая длинна - ${length}`,
+  min_length: ({ length }: { length: string | number }): string => `Минимальная длинна - ${length}`,
+  max: ({ max }: { max: string | number }): string => `Максимальное значение - ${max}`,
+  min: ({ min }: { min: string | number }): string => `Минимальное значение - ${min}`,
+  not_one_of: 'Значение но допустимо',
+  one_of: 'Значение но допустимо',
+  numeric: 'Значение должно быть числовым',
+};
+
 export const defineRule: DefineRule = (id, validator) => {
   RULES.set(id, validator as Parameters<DefineRule>[1]);
 };
@@ -93,14 +117,14 @@ const isEmpty = (value: unknown) => {
   return Array.isArray(value) && value.length === 0;
 };
 
-export const requiredValidator = (value: any): boolean => {
+const requiredValidator = (value: any): boolean => {
   if (isNullOrUndefined(value) || isEmptyArray(value) || value === false) {
     return false;
   }
   return !!String(value).trim().length;
 };
 
-export const alphaValidator = (value: unknown): boolean => {
+const alphaValidator = (value: unknown): boolean => {
   if (isEmpty(value)) {
     return true;
   }
@@ -113,7 +137,7 @@ export const alphaValidator = (value: unknown): boolean => {
   return /^[А-ЯЁ]*$/i.test(valueAsString);
 };
 
-export const alphaDashValidator = (value: unknown): boolean => {
+const alphaDashValidator = (value: unknown): boolean => {
   if (isEmpty(value)) {
     return true;
   }
@@ -124,7 +148,7 @@ export const alphaDashValidator = (value: unknown): boolean => {
   return /^[0-9А-ЯЁ_-]*$/i.test(valueAsString);
 };
 
-export const alphaNumValidator = (value: unknown): boolean => {
+const alphaNumValidator = (value: unknown): boolean => {
   if (isEmpty(value)) {
     return true;
   }
@@ -135,7 +159,7 @@ export const alphaNumValidator = (value: unknown): boolean => {
   return /^[0-9А-ЯЁ]*$/i.test(valueAsString);
 };
 
-export const alphaSpacesValidator = (value: unknown): boolean => {
+const alphaSpacesValidator = (value: unknown): boolean => {
   if (isEmpty(value)) {
     return true;
   }
@@ -155,6 +179,8 @@ const getBetweenParams = (params: BetweenParams)
 };
 
 const betweenValidator: SimpleValidationRuleFunction<unknown, BetweenParams> = (value, params) => {
+  if (!params) throw new Error('missing required params - min, max');
+
   if (isEmpty(value)) {
     return true;
   }
