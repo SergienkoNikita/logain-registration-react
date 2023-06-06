@@ -1,61 +1,26 @@
 import { useState } from 'react';
+import { DEFAULT_ERROR_TEXT, VALIDATION_ERROR_TEXT } from 'libs/form/constants.ts';
+import { RULES } from 'libs/form/validations.ts';
 import {
-  DEFAULT_ERROR_TEXT, DefaultRules, RULES, VALIDATION_ERROR_TEXT,
-} from '../validation-types.ts';
+  Field,
+  GetBaseValidationErrorText,
+  GetValidationParams,
+  SetFieldError,
+  isRuleWithParams, GetValidationFunction, UseField,
+} from './types.ts';
 
-type DefaultRulesParams = [string | number]
-| { length: string | number }
-| { target: string }
-| { other: string }
-| { min?: string | number, max?: string | number };
-
-type CustomRule = (value: unknown) => string | boolean;
-
-type RuleWithParams = { name: DefaultRules, params: DefaultRulesParams };
-
-type Rule = RuleWithParams | DefaultRules | CustomRule;
-
-type ValidationResult = boolean | string | Promise<boolean | string>;
-
-interface FieldProps {
-  name: string;
-  defaultValue: string | number;
-  rules?: Rule[];
-}
-
-export const useField = (props: FieldProps) => {
-  const [field, setField] = useState<{
-    name: FieldProps['name'];
-    value: FieldProps['defaultValue'];
-    rules?: Rule[];
-    touched: boolean;
-    isValid: boolean;
-    error: string | null;
-  }>({
+export const useField: UseField = (props) => {
+  const [field, setField] = useState<Field>({
     name: props.name,
+    label: props.label,
     value: props.defaultValue ?? '',
     rules: props.rules,
     touched: false,
-    isValid: true,
+    isValid: !props.rules,
     error: null,
   });
 
-  const validateByDefaultRule = (rule: RuleWithParams | DefaultRules)
-  : ValidationResult => {
-    let result: boolean | string | Promise<boolean | string> = true;
-
-    if (typeof rule === 'string') {
-      const handler = RULES.get(rule);
-      if (handler) result = handler(field.value, {});
-    } else {
-      const handler = RULES.get(rule.name);
-      if (handler) result = handler(rule.name, rule.params);
-    }
-
-    return result;
-  };
-
-  const getBaseValidationErrorText = (rule: DefaultRules | RuleWithParams): string => {
+  const getBaseValidationErrorText: GetBaseValidationErrorText = (rule) => {
     let errorText: string = '';
 
     if (typeof rule === 'string') {
@@ -71,7 +36,7 @@ export const useField = (props: FieldProps) => {
     return errorText;
   };
 
-  const setFieldError = (rule: Rule, validationResult: string | boolean): void => {
+  const setFieldError: SetFieldError = (rule, validationResult) => {
     let errorText: string;
 
     if (typeof validationResult !== 'string') {
@@ -85,21 +50,48 @@ export const useField = (props: FieldProps) => {
     setField({ ...field, isValid: false, error: errorText });
   };
 
+  const getValidationParams: GetValidationParams = (rule) => {
+    const defaultParams: ReturnType<GetValidationParams> = {
+      params: {},
+      ctx: {
+        name: field.name,
+        label: field.label,
+        value: field.value,
+      },
+    };
+
+    if (typeof rule === 'string') {
+      defaultParams.ctx.rule = { name: rule };
+    }
+
+    if (isRuleWithParams(rule)) {
+      defaultParams.params = rule.params;
+      defaultParams.ctx.rule = { name: rule.name };
+    }
+
+    return defaultParams;
+  };
+
+  const getValidationFn: GetValidationFunction = (rule) => {
+    if (typeof rule === 'function') return rule;
+
+    const handler = RULES.get(typeof rule === 'string' ? rule : rule.name);
+    if (!handler) {
+      throw new Error(`Rule - ${rule} - not defined`);
+    }
+    return handler;
+  };
+
   const validate = async (): Promise<void> => {
     if (!field.rules) return;
 
     let isValid: string | boolean = true;
     // eslint-disable-next-line guard-for-in,no-restricted-syntax
     for (const rule of field.rules) {
-      if (typeof rule !== 'function') {
-        // eslint-disable-next-line no-await-in-loop
-        isValid = await validateByDefaultRule(rule);
-      }
-
-      if (typeof rule === 'function') {
-        // eslint-disable-next-line no-await-in-loop
-        isValid = await rule(field.value);
-      }
+      const validationParams = getValidationParams(rule);
+      const validationFn = getValidationFn(rule);
+      // eslint-disable-next-line no-await-in-loop
+      isValid = await validationFn(field.value, validationParams.params, validationParams.ctx);
 
       if (typeof isValid === 'string' || !isValid) {
         setFieldError(rule, isValid);
