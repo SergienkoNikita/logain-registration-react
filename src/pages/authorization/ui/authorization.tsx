@@ -1,6 +1,6 @@
 import { FC } from 'react';
+import { Authentication } from 'features/authentication';
 import styles from './authoriztion.module.css';
-import { Authentication } from '../../../features/authentication';
 
 export const Authorization: FC = () => (
     <div className={styles.authorization}>

@@ -1,7 +1,7 @@
 import {
   FC, JSX, useMemo, useState,
 } from 'react';
-import { BaseSwitchButton } from '../../shared/ui';
+import { BaseSwitchButton } from 'ui';
 import { LoginForm } from './login-form/login-form.tsx';
 import { RegistrationForm } from './registration-form/registration-form.tsx';
 

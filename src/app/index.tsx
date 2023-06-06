@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Routing } from '../pages';
+import { Routing } from 'pages';
 import '../index.css';
 
 export const App: FC = () => (

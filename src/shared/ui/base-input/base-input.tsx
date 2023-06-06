@@ -1,7 +1,7 @@
 import {
   FC, FormEvent, useEffect, useMemo, useRef, useState,
 } from 'react';
-import { UI_SIZES } from '../ui-sizes.ts';
+import { UI_SIZES } from 'ui/ui-sizes.ts';
 import { BaseInputProps } from './types.ts';
 import classes from './base-input.module.pcss';
 

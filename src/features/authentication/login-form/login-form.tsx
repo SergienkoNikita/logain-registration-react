@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import { BaseInput } from '../../../shared/ui';
-import { useForm } from '../../../shared/libs/form';
-import { useField } from '../../../shared/libs/form/use-field/use-field.ts';
+import { BaseInput } from 'ui';
+import { useForm } from 'libs/form';
+import { useField } from 'libs/form/use-field/use-field.ts';
 
 export const LoginForm: FC = () => {
   const {
@@ -25,6 +25,7 @@ export const LoginForm: FC = () => {
 
   const onNameBlur = () => {
     validate();
+    // eslint-disable-next-line no-console
     console.log(nameField);
   };
 
